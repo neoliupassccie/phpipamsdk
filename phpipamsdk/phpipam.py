@@ -34,10 +34,13 @@ class PhpIpamApi(object):
     }
 
     def __init__(self, api_uri=None, api_appcode=None, api_verify_ssl=None):
+        # api_uri
         if api_uri is None:
             self._api_uri = Configuration().api_uri
         else:
             self._api_uri = api_uri
+
+        # api_appcode
         if api_appcode is None:
             if Configuration().api_appcode:
                 self._api_token = Configuration().api_appcode
@@ -47,6 +50,8 @@ class PhpIpamApi(object):
             self._api_token = api_appcode
             self._api_headers['phpipam-token'] = self._api_token
             self._api_appcode_auth = True
+
+        # api_verify_ssl
         if api_verify_ssl is None:
             self._api_verify_ssl = Configuration().api_verify_ssl
         else:

@@ -43,6 +43,11 @@ class SubnetsApi(object):
         else:
             self.phpipam = PhpIpamApi()
 
+    def get_subnets_index(self):
+        uri = 'subnets/'
+        result = self.phpipam.api_send_request(path=uri, method='get')
+        return result
+
     def get_subnet(self, subnet_id=''):
         """ get subnet details based on ID """
         uri = 'subnets/' + str(subnet_id) + '/'

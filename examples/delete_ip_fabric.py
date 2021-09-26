@@ -16,7 +16,8 @@ def del_section(ipam=None, name=None):
 
     sect_id = get_section_id(ipam=ipam, name=name)
 
-    sections_api.del_section(section_id=sect_id)
+    res = sections_api.del_section(section_id=sect_id)
+    print(res)
 
 
 def del_location(ipam=None, name=None):
@@ -25,7 +26,8 @@ def del_location(ipam=None, name=None):
 
     location_id = get_tools_location_id(ipam=ipam, name=name)
 
-    locations_api.del_tools_location(location_id=location_id)
+    res = locations_api.del_tools_location(location_id=location_id)
+    print(res)
 
 
 def del_rack(ipam=None, name=None):
@@ -34,7 +36,8 @@ def del_rack(ipam=None, name=None):
 
     rack_id = get_tools_rack_id(ipam=ipam, name=name)
 
-    racks_api.del_tools_rack(rack_id=rack_id)
+    res = racks_api.del_tools_rack(rack_id=rack_id)
+    print(res)
 
 
 def del_device(ipam=None, name=None):
@@ -43,16 +46,17 @@ def del_device(ipam=None, name=None):
 
     device_id = get_device_id(ipam=ipam, name=name)
 
-    devices_api.del_device(device_id=device_id)
+    res = devices_api.del_device(device_id=device_id)
+    print(res)
 
 
 if __name__ == "__main__":
     warnings.filterwarnings('ignore')
-    IPAM = phpipamsdk.PhpIpamApi(
-        api_uri='https://192.168.16.30/api/app/', api_verify_ssl=False)
-    IPAM.login(auth=('admin', 'password'))
-
-    section_id = get_section_id(ipam=IPAM, name='ip_fabric_one')
+    # IPAM = phpipamsdk.PhpIpamApi(
+    #     api_uri='http://127.0.0.1/api/admin/', api_verify_ssl=False)
+    # IPAM.login(auth=('admin', 'root@123'))
+    IPAM = phpipamsdk.PhpIpamApi()
+    IPAM.login()
 
     # Delete the Devices
 
@@ -77,10 +81,10 @@ if __name__ == "__main__":
 
     # Delete the Location
 
-    del_location(ipam=IPAM, name='equinix_dc2')
+    del_location(ipam=IPAM, name='equinix_dcxxx')
 
     # Delete the section along with all subnets contained within
 
-    del_section(ipam=IPAM, name='ip_fabric_one')
+    del_section(ipam=IPAM, name='ip_fabric_two3')
 
     IPAM.logout()

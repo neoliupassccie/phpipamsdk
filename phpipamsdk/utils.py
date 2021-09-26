@@ -1,15 +1,16 @@
 """ Utility Functions """
-from phpipamsdk.controllers import L2DomainsApi
-from phpipamsdk.controllers import SectionsApi
-from phpipamsdk.controllers import SubnetsApi
-from phpipamsdk.controllers import DevicesApi
-from phpipamsdk.controllers import ToolsDevicesApi
-from phpipamsdk.controllers import ToolsDeviceTypesApi
-from phpipamsdk.controllers import ToolsLocationsApi
-from phpipamsdk.controllers import ToolsRacksApi
-from phpipamsdk.controllers import ToolsTagsApi
-from phpipamsdk.controllers import VlansApi
-from phpipamsdk.controllers import VRFsApi
+# from phpipamsdk.controllers import L2DomainsApi
+# from phpipamsdk.controllers import SectionsApi
+# from phpipamsdk.controllers import SubnetsApi
+# from phpipamsdk.controllers import DevicesApi
+# from phpipamsdk.controllers import ToolsDevicesApi
+# from phpipamsdk.controllers import ToolsDeviceTypesApi
+# from phpipamsdk.controllers import ToolsLocationsApi
+# from phpipamsdk.controllers import ToolsRacksApi
+# from phpipamsdk.controllers import ToolsTagsApi
+# from phpipamsdk.controllers import VlansApi
+# from phpipamsdk.controllers import VRFsApi
+from phpipamsdk.controllers import *
 
 
 def check_list(t_list='', t_item='', t_string=''):
@@ -69,16 +70,17 @@ def get_tools_device_id(ipam=None, name=None):
 
     return device[0]['id']
 
+
 def get_device_id(ipam=None, name=None):
     devices_api = DevicesApi(phpipam=ipam)
 
     apiresult = devices_api.list_devices()
     devicelist = apiresult['data'] if 'data' in apiresult else []
     device = [x for x in devicelist if x['hostname'] == name]
-
     check_list(t_list=device, t_item=name, t_string='device')
 
     return device[0]['id']
+
 
 def get_section_id(ipam=None, name=None):
     sections_api = SectionsApi(phpipam=ipam)

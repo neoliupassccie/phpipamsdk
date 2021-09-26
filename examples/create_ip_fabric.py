@@ -129,27 +129,19 @@ def add_first_free_subnet(
 
 if __name__ == "__main__":
     warnings.filterwarnings('ignore')
-    IPAM = phpipamsdk.PhpIpamApi(
-        api_uri='https://192.168.16.30/api/app/', api_verify_ssl=False)
-    IPAM.login(auth=('admin', 'password'))
-
-    # Add the secion to house the new IP Fabric
-
-    section_id = add_section(
-        ipam=IPAM,
-        name='ip_fabric_one',
-        description='my new ip fabric',
-        permissions='{"3":"1","2":"2"}',
-        show_vlan=True,
-        show_vrf=True)
+    # IPAM = phpipamsdk.PhpIpamApi(
+    #     api_uri='http://127.0.0.1/api/admin/', api_verify_ssl=False)
+    # IPAM.login(auth=('admin', 'root@123'))
+    IPAM = phpipamsdk.PhpIpamApi()
+    IPAM.login()
 
     # Add the location of the new IP Fabric
 
     location_id = add_location(
         ipam=IPAM,
-        name='equinix_dc2',
-        description='equinix dc2 cage',
-        address='21715 Filigree Court, Ashburn, VA 20147')
+        name='equinix_dcxxx',
+        description='equinix dcxxx',
+        address='21715 Filigree')
 
     # Add the racks for the new IP Fabric
 
@@ -183,16 +175,29 @@ if __name__ == "__main__":
         name='R06', size='42', description='Compute/Storage Rack',
         location_id=location_id)
 
+    # Add the secion to house the new IP Fabric
+
+    section_id = add_section(
+        ipam=IPAM,
+        name='ip_fabric_two3',
+        description='my new ip fabric',
+        permissions='{"3":"1","2":"2"}',
+        # Json encoded group permissions for section groupId:permission_level (0-3)
+        # Operators:2 Guests:3
+        # 0:na 1:ro 2:rw 3:rwa
+        show_vlan=True,
+        show_vrf=True)
+
     # Add the network devices for the new IP Fabric
 
     bleaf1 = add_device(
+        sections=section_id,
+        location_id=location_id,
+        rack_id=r1_id,
         ipam=IPAM,
         hostname='border-leaf1.dc2',
         ip='192.168.10.1',
-        sections=section_id,
-        type_id='1',
-        location_id=location_id,
-        rack_id=r1_id,
+        type_id='2',
         rack_size='2',
         rack_start='39',
         snmp_community='public',
@@ -200,13 +205,13 @@ if __name__ == "__main__":
         description='edge services')
 
     bleaf2 = add_device(
+        location_id=location_id,
+        sections=section_id,
+        rack_id=r2_id,
         ipam=IPAM,
         hostname='border-leaf2.dc2',
         ip='192.168.10.2',
-        sections=section_id,
         type_id='1',
-        location_id=location_id,
-        rack_id=r2_id,
         rack_size='2',
         rack_start='39',
         snmp_community='public',
